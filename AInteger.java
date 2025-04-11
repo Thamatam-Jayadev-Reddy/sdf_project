@@ -1,5 +1,15 @@
 public class AInteger{
     private String int_string;
+
+    String remove_zeros(String s){
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)!='0'){
+                return s.substring(i);
+            }
+        }
+        return s;
+    }
+
     AInteger(){
         this.int_string = "0";
     }
@@ -198,6 +208,66 @@ public class AInteger{
         else result_ = new AInteger(result_string);
         return result_;
     }
-    
+
+    private String div(String s1, String s2, boolean recur){
+        String quotient = "1";
+        String remainder = "";
+        if(compare(s1, s2)==1){
+            if(!recur) return "0";
+            else return "";
+        }
+        else if(compare(s1, s2)==0){
+            return "1";
+        }
+        else{       // 238 / 13 -> 
+            int num_digs = s2.length();
+            while(compare(s1.substring(0,num_digs), s2)>0){
+                num_digs++;
+            }
+            
+            String fake_quotient = "1";
+            while(compare(mul(fake_quotient, s2),s1.substring(0,num_digs))>0){
+                fake_quotient = add_string_to_string("1", fake_quotient);
+            }
+            
+            
+            quotient = subtract_string_to_string(fake_quotient, "1");
+            
+            remainder = subtract_string_to_string(s1.substring(0, num_digs), mul(quotient,s2));
+            
+            quotient = remove_zeros(quotient);
+            remainder = remove_zeros(remainder);
+            String next_str = remove_zeros(remainder+s1.substring(num_digs));
+
+            // System.out.println("quotient : " + quotient);
+            // System.out.println("remainder : " + remainder);
+            // System.out.println("s1.substring(num_digs) : " + s1.substring(num_digs));
+            // System.out.println("next_str : " + next_str);
+            // System.exit(0);
+
+            return quotient + div(next_str,s2,true);
+        }
+    }
+
+    public AInteger divide(AInteger other_int){
+        String s1 = this.int_string;
+        String s2 = other_int.int_string;
+        boolean neg = false;
+        String result_string;
+
+        if((s1.charAt(0)=='-' && s2.charAt(0)!='-') || (s1.charAt(0)!='-' && s2.charAt(0)=='-')){
+            neg = true;
+            if(s1.charAt(0)=='-') result_string = div(s1.substring(1), s2, false);
+            else result_string = div(s1, s2.substring(1), false);
+        }
+        else{
+            if(s1.charAt(0)=='-') result_string = div(s1.substring(1), s2.substring(1), false);
+            else result_string = div(s1,s2,false);
+        }
+        AInteger result_;
+        if(neg) result_ = new AInteger('-' + result_string);
+        else result_ = new AInteger(result_string);
+        return result_;
+    }
 }
 
