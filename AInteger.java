@@ -39,8 +39,8 @@ public class AInteger{
         String res_String = "";
 
         for(int i=0;i<max;i++){
-            int dig1 = (i>num1.length()) ? 0 : num1.charAt(num1.length()-i-1);
-            int dig2 = (i>num2.length()) ? 0 : num2.charAt(num2.length()-i-1);
+            int dig1 = (i>=num1.length()) ? '0' : num1.charAt(num1.length()-i-1);
+            int dig2 = (i>=num2.length()) ? '0' : num2.charAt(num2.length()-i-1);
             dig1 -= '0'; 
             dig2 -= '0';
 
@@ -109,8 +109,8 @@ public class AInteger{
         String fnl_string = "";
 
         for(int i=0;i<max_string.length();i++){
-            int dig1 = max_string.charAt(max_string.length() - i - 1);
-            int dig2 = (i>min_string.length())? 0 : min_string.charAt(min_string.length() - i -1);
+            int dig1 = max_string.charAt(max_string.length() - i - 1)-'0';
+            int dig2 = (i>=min_string.length()) ? 0 : min_string.charAt(min_string.length() - i -1)-'0';
 
             int res_dig = dig1 - dig2;
 
@@ -150,5 +150,54 @@ public class AInteger{
     public AInteger subtract(AInteger other_int){
         return subtract_string_to_aint(this.int_string, other_int.int_string);
     }
+
+    private String mul(String s1, String s2){
+        String result_string = "0";
+        
+        for(int i=0;i<s2.length();i++){
+            String car_string = "";
+            for(int j=0;j<i;j++){
+                car_string+='0';
+            }
+            
+            int dig_1 = s2.charAt(s2.length()-i-1) - '0';
+            int carry = 0;
+            for(int j=0;j<s1.length();j++){
+                int dig_2 = s1.charAt(s1.length()-j-1) - '0';
+                int mul_ans = dig_2 * dig_1 + carry;
+
+                car_string = (mul_ans % 10) + car_string;
+                carry = mul_ans / 10;
+            }
+            if(carry>0){
+                car_string = carry + car_string;
+            }
+            result_string = add_string_to_string(result_string, car_string);
+        }
+
+        return result_string;
+    }
+
+    public AInteger multiply(AInteger other_int){
+        String s1 = this.int_string;
+        String s2 = other_int.int_string;
+        boolean neg = false;
+        String result_string;
+
+        if((s1.charAt(0)=='-' && s2.charAt(0)!='-') || (s1.charAt(0)!='-' && s2.charAt(0)=='-')){
+            neg = true;
+            if(s1.charAt(0)=='-') result_string = mul(s1.substring(1), s2);
+            else result_string = mul(s1, s2.substring(1));
+        }
+        else{
+            if(s1.charAt(0)=='-') result_string = mul(s1.substring(1), s2.substring(1));
+            else result_string = mul(s1,s2);
+        }
+        AInteger result_;
+        if(neg) result_ = new AInteger('-' + result_string);
+        else result_ = new AInteger(result_string);
+        return result_;
+    }
+    
 }
 
