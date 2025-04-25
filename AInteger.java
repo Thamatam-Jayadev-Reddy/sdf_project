@@ -237,6 +237,12 @@ public class AInteger{
                 
                 quotient+=to_add_qoutient;
                 if(take_ptr==s1.length()) return quotient;
+
+                if(to_add_qoutient.equals("0")){
+                    vid = vid + s1.charAt(take_ptr);
+                    take_ptr++;
+                    continue;
+                }
                 
                 String remainder = subtract_string_to_string(vid, mul(to_add_qoutient, s2));
                 remainder = remove_zeros(remainder);
@@ -267,6 +273,15 @@ public class AInteger{
         if(neg) result_ = new AInteger('-' + result_string);
         else result_ = new AInteger(result_string);
         return result_;
+    }
+
+
+    public static void main(String[] args){
+        AInteger num1 = new AInteger("3930400000000000000000");
+        AInteger num2 = new AInteger("1502934");
+
+        AInteger result1 = num1.divide(num2);
+        System.out.println(result1.int_string);
     }
 }
 
