@@ -42,16 +42,7 @@ Handles floating-point arithmetic with support for:
    python3 run.py int add 123 456
    ```
 
-##  Example
 
-```java
-AInteger a = new AInteger("12345678901234567890");
-AInteger b = new AInteger("987654321");
-System.out.println(a.multiply(b).int_string);
-
-AFloat f1 = new AFloat("12.345");
-AFloat f2 = new AFloat("3.14");
-System.out.println(f1.divide(f2).float_string);
 ```
 
 
