@@ -8,7 +8,7 @@ This repository implements a custom Java-based arithmetic library for arbitrary-
 ##  Features
 
 - Manual implementation of addition, subtraction, multiplication, and division
-- String-based number storage for unlimited precision
+- String-based number storage for 1000 precision
 - Handles negative numbers and normalization (removal of leading/trailing zeros)
 - Floating-point logic that simulates real decimal behavior
 - Fully object-oriented and immutable operations
@@ -54,11 +54,6 @@ AFloat f2 = new AFloat("3.14");
 System.out.println(f1.divide(f2).float_string);
 ```
 
-##  Limitations
-
-- Division by zero returns a string instead of throwing an exception
-- Floating-point precision is manually controlled (fixed precision depth)
-- No support yet for negative exponents or scientific notation
 
 
 ---
